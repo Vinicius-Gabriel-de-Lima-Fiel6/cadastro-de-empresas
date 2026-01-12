@@ -8,7 +8,7 @@ try:
     key: str = st.secrets["SUPABASE_KEY"]
     supabase: Client = create_client(url, key)
 except Exception as e:
-    st.error(f"Erro de conexão: {e}")
+    st.error(f"Erro de conexão com o banco: {e}")
 
 def hash_senha(senha):
     return bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
@@ -23,7 +23,7 @@ def cadastrar_usuario_completo(username, email, senha_limpa, org_name, role, cpf
         if check_org.data:
             return False, f"A empresa '{org_name}' já está cadastrada."
 
-        # 2. Criação da Organização com dados de Assinatura
+        # 2. Criação da Organização
         org_payload = {
             "name": org_name,
             "plano_ativo": plano,
@@ -33,7 +33,7 @@ def cadastrar_usuario_completo(username, email, senha_limpa, org_name, role, cpf
         res_org = supabase.table("organizations").insert(org_payload).execute()
         org_id = res_org.data[0]['id']
 
-        # 3. Criação do Usuário ADM com dados de Faturamento
+        # 3. Criação do Usuário ADM
         user_payload = {
             "username": username,
             "email": email,
@@ -46,7 +46,7 @@ def cadastrar_usuario_completo(username, email, senha_limpa, org_name, role, cpf
         }
         
         supabase.table("users").insert(user_payload).execute()
-        return True, "Assinatura ativada com sucesso!"
+        return True, "Sucesso"
 
     except Exception as e:
         return False, f"Erro no processamento: {str(e)}"
