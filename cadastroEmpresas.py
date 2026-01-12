@@ -1,7 +1,8 @@
 import streamlit as st
 import auth_db as db
+from email_utils import enviar_email_boas_vindas
 
-st.set_page_config(page_title="Checkout LabSmartAI", layout="centered")
+st.set_page_config(page_title="Checkout LabSmartAI", layout="centered", page_icon="🧪")
 
 st.title("🧪 Ative sua Licença LabSmartAI")
 st.info("O primeiro cadastro define o Administrador Único da conta.")
@@ -22,9 +23,6 @@ with st.form("hotmart_checkout"):
     st.subheader("3. Pagamento e Plano")
     plano = st.select_slider("Escolha seu plano:", options=["Mensal", "Semestral", "Anual"])
     
-    st.write("Bandeiras aceitas:")
-    st.markdown("💳 **Visa** | **Mastercard** | **Elo** | 🟢 **PIX**")
-    
     metodo = st.radio("Selecione o método:", ["Cartão de Crédito", "PIX", "Boleto"], horizontal=True)
 
     if metodo == "Cartão de Crédito":
@@ -40,13 +38,24 @@ with st.form("hotmart_checkout"):
 
 if btn:
     if concordo and all([nome, email, cpf_cnpj, empresa, senha]):
+        # Passo 1: Cadastro no Banco
         sucesso, msg = db.cadastrar_usuario_completo(
             nome, email, senha, empresa, "ADM", 
             cpf_cnpj, whatsapp, plano, metodo
         )
+        
         if sucesso:
-            st.success("✨ Parabéns! Sua empresa foi registrada. Você já pode fazer login.")
+            # Passo 2: Envio de E-mail (Incremento)
+            with st.spinner("Processando sua licença e enviando e-mail de acesso..."):
+                enviado = enviar_email_boas_vindas(email, nome, empresa)
+            
+            st.success("✨ Conta ativada com sucesso!")
             st.balloons()
+            
+            if enviado:
+                st.info(f"📧 Enviamos suas credenciais para **{email}**. Verifique sua caixa de entrada.")
+            else:
+                st.warning("⚠️ Conta criada, mas houve uma falha no envio do e-mail. Acesse o sistema com a senha criada.")
         else:
             st.error(msg)
     else:
