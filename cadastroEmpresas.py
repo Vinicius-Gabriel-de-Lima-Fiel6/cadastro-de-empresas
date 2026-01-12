@@ -1,101 +1,53 @@
 import streamlit as st
 import auth_db as db
 
-st.set_page_config(page_title="Onboarding LabSmartAI", page_icon="🧪", layout="centered")
+st.set_page_config(page_title="Checkout LabSmartAI", layout="centered")
 
-# CSS para estilizar os cartões e seleção
-st.markdown("""
-    <style>
-    .plan-card {
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
-        background-color: #f9f9f9;
-    }
-    </style>
-""", unsafe_allow_html=True)
+st.title("🧪 Ative sua Licença LabSmartAI")
+st.info("O primeiro cadastro define o Administrador Único da conta.")
 
-st.title("🚀 Checkout LabSmartAI PRO")
-st.write("Complete seu cadastro para ativar sua licença empresarial.")
-
-with st.form("checkout_form"):
-    # --- SEÇÃO 1: IDENTIDADE DO ADM ---
-    st.subheader("1. Dados do Responsável")
+with st.form("hotmart_checkout"):
+    st.subheader("1. Seus Dados Profissionais")
     col1, col2 = st.columns(2)
-    with col1:
-        nome_adm = st.text_input("Nome Completo")
-        email = st.text_input("E-mail de Acesso")
-    with col2:
-        cpf_cnpj = st.text_input("CPF ou CNPJ")
-        whatsapp = st.text_input("WhatsApp com DDD")
+    nome = col1.text_input("Nome Completo *")
+    email = col2.text_input("E-mail de Acesso *")
+    cpf_cnpj = col1.text_input("CPF ou CNPJ *")
+    whatsapp = col2.text_input("WhatsApp com DDD *")
     
-    senha = st.text_input("Crie uma senha de acesso", type="password")
+    st.subheader("2. Dados da Empresa")
+    empresa = st.text_input("Nome do Laboratório/Empresa *")
+    senha = st.text_input("Crie uma senha de acesso *", type="password")
 
     st.divider()
-
-    # --- SEÇÃO 2: DADOS DA EMPRESA ---
-    st.subheader("2. Informações da Empresa")
-    nome_empresa = st.text_input("Nome Fantasia do Laboratório/Empresa")
-    endereco = st.text_input("Endereço Comercial Completo")
-
-    st.divider()
-
-    # --- SEÇÃO 3: PLANO DE ASSINATURA ---
-    st.subheader("3. Escolha seu Plano")
-    plano = st.radio(
-        "Selecione a recorrência:",
-        ["Mensal - R$ 199,00", "Semestral - R$ 990,00", "Anual - R$ 1.790,00 (Melhor Valor)"],
-        horizontal=True
-    )
-
-    st.divider()
-
-    # --- SEÇÃO 4: PAGAMENTO (SIMULAÇÃO ESTILO HOTMART) ---
-    st.subheader("4. Forma de Pagamento")
+    st.subheader("3. Pagamento e Plano")
+    plano = st.select_slider("Escolha seu plano:", options=["Mensal", "Semestral", "Anual"])
     
-    # Exibição visual das bandeiras
-    st.write("💳 Aceitamos:")
-    st.markdown("🟡 **Mastercard** | 🔵 **Visa** | 🔴 **Elo** | 🟢 **Pix** | 📄 **Boleto**")
+    st.write("Bandeiras aceitas:")
+    st.markdown("💳 **Visa** | **Mastercard** | **Elo** | 🟢 **PIX**")
     
-    metodo = st.selectbox("Selecione o método:", ["Cartão de Crédito", "Pix", "Boleto Bancário"])
+    metodo = st.radio("Selecione o método:", ["Cartão de Crédito", "PIX", "Boleto"], horizontal=True)
 
     if metodo == "Cartão de Crédito":
-        num_cartao = st.text_input("Número do Cartão", placeholder="0000 0000 0000 0000")
-        c1, c2, c3 = st.columns([2, 1, 1])
-        with c1:
-            titular = st.text_input("Nome no Cartão")
-        with c2:
-            validade = st.text_input("Validade (MM/AA)")
-        with c3:
-            cvv = st.text_input("CVV", type="password")
-    
-    elif metodo == "Pix":
-        st.info("O QR Code para pagamento será gerado após a finalização do cadastro.")
-    
-    st.divider()
-    
-    # Termos
-    concordo = st.checkbox("Li e concordo com os Termos de Uso e Política de Privacidade.")
-    
-    submit = st.form_submit_button("FINALIZAR E ATIVAR MINHA CONTA", use_container_width=True)
+        st.text_input("Número do Cartão", placeholder="0000 0000 0000 0000")
+        c1, c2 = st.columns(2)
+        c1.text_input("Validade (MM/AA)")
+        c2.text_input("CVV")
 
-if submit:
-    if not concordo:
-        st.warning("Você precisa aceitar os termos para continuar.")
-    elif all([nome_adm, email, senha, nome_empresa, cpf_cnpj]):
-        # Aqui enviamos para a função de cadastro
-        # Note que passamos os novos campos como metadados ou adicionamos ao banco
+    st.divider()
+    concordo = st.checkbox("Li e aceito os Termos de Uso e Políticas de Privacidade.")
+    
+    btn = st.form_submit_button("FINALIZAR E ATIVAR MINHA CONTA", use_container_width=True)
+
+if btn:
+    if concordo and all([nome, email, cpf_cnpj, empresa, senha]):
         sucesso, msg = db.cadastrar_usuario_completo(
-            nome_adm, email, senha, nome_empresa, "ADM", 
+            nome, email, senha, empresa, "ADM", 
             cpf_cnpj, whatsapp, plano, metodo
         )
-        
         if sucesso:
-            st.success("✨ Cadastro realizado com sucesso! Sua plataforma está sendo configurada.")
+            st.success("✨ Parabéns! Sua empresa foi registrada. Você já pode fazer login.")
             st.balloons()
-            st.info("Você receberá um e-mail com as instruções de acesso.")
         else:
             st.error(msg)
     else:
-        st.error("Por favor, preencha todos os campos obrigatórios (Marcados com *).")
+        st.warning("Preencha todos os campos obrigatórios e aceite os termos.")
