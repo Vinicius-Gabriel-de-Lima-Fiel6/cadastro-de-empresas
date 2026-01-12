@@ -12,7 +12,7 @@ def enviar_email_boas_vindas(email_destino, nome_usuario, nome_empresa):
     senha = st.secrets["EMAIL_PASS"]
 
     # Variáveis Dinâmicas
-    link_sistema = "https://labsmartai.streamlit.app" # Substitua pelo seu link real
+    link_sistema = "https://sistemaparalaboratoriosinteligentes-af2k9rvzo3xemfzmnrjlpr.streamlit.app/"
     data_hoje = datetime.now().strftime("%d/%m/%Y")
 
     corpo_html = f"""
