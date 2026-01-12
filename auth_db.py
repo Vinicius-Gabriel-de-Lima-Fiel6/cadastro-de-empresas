@@ -20,7 +20,7 @@ def verificar_senha(senha, senha_hash):
 
 # --- Funções de Negócio ---
 
-def cadastrar_usuario(username, email, senha_limpa, org_name, role, cpf="", whatsapp="", plano="", metodo=""):
+def cadastrar_usuario_completo(username, email, senha_limpa, org_name, role, cpf="", whatsapp="", plano="", metodo=""):
     """
     Cria um usuário e a Organização. 
     Inclui trava para impedir duplicidade de empresas e novos campos de faturamento.
