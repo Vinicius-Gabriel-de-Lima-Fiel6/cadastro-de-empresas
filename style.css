@@ -1,0 +1,32 @@
+/* style.css */
+.checkout-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #f0f0f0;
+}
+
+.input-label {
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.btn-ativar {
+    background: linear-gradient(90deg, #00D1B2 0%, #009688 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.2s;
+}
+
+.btn-ativar:hover {
+    transform: scale(1.02);
+}
