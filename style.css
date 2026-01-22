@@ -1,48 +1,45 @@
-/* style.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-
+/* Fundo limpo com leve gradiente */
 .stApp {
     background: radial-gradient(circle, #f0fdfa 0%, #e2e8f0 100%);
-    font-family: 'Inter', sans-serif;
 }
 
-/* Card centralizado estilo Hotmart */
+/* Card centralizado e flutuante */
 .stForm {
     background-color: white !important;
-    padding: 3rem !important;
+    padding: 40px !important;
     border-radius: 20px !important;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
     border: none !important;
-    max-width: 700px;
-    margin: 0 auto;
 }
 
-/* Inputs arredondados */
-input {
+/* Inputs arredondados e suaves */
+.stTextInput>div>div>input {
     border-radius: 10px !important;
     border: 1px solid #e2e8f0 !important;
+    padding: 10px !important;
 }
 
-/* Botão Principal de Alta Conversão */
-button[kind="primaryFormSubmit"] {
+/* Botão principal (Verde Mentolado) */
+.stButton>button {
     background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%) !important;
     color: white !important;
     font-size: 18px !important;
     font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
     border-radius: 12px !important;
     border: none !important;
     height: 55px !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4) !important;
-    margin-top: 20px;
 }
 
-button[kind="primaryFormSubmit"]:hover {
+.stButton>button:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 20px rgba(45, 212, 191, 0.6) !important;
 }
 
-/* Esconder elementos nativos do Streamlit para ficar limpo */
-header {visibility: hidden;}
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
+/* Ajuste nos títulos */
+h1, h2, h3 {
+    color: #111827 !important;
+    font-family: 'Inter', sans-serif !important;
+}
