@@ -2,8 +2,7 @@ import streamlit as st
 import auth_db as db
 from email_utils import enviar_email_boas_vindas
 
-# --- FUNÇÃO DE CONEXÃO COM O FRONT ---
-def load_external_files():
+def aplicar_design():
     with open("style.css", "r") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     with open("template.html", "r") as f:
@@ -11,62 +10,54 @@ def load_external_files():
 
 st.set_page_config(page_title="Checkout LabSmartAI", layout="centered", page_icon="🧪")
 
-# Aplica o Front-end separado
-load_external_files()
+# Aplica o visual "Perfeito e Limpo"
+aplicar_design()
 
-st.info("O primeiro cadastro define o Administrador Único da conta.")
 
 with st.form("hotmart_checkout"):
-    st.subheader("1. Seus Dados Profissionais")
+    st.subheader("1. Dados do Administrador")
     col1, col2 = st.columns(2)
     nome = col1.text_input("Nome Completo *")
     email = col2.text_input("E-mail de Acesso *")
     cpf_cnpj = col1.text_input("CPF ou CNPJ *")
-    whatsapp = col2.text_input("WhatsApp com DDD *")
+    whatsapp = col2.text_input("WhatsApp *")
     
-    st.subheader("2. Dados da Empresa")
-    empresa = st.text_input("Nome do Laboratório/Empresa *")
-    senha = st.text_input("Crie uma senha de acesso *", type="password")
+    st.subheader("2. Sobre o Laboratório")
+    empresa = st.text_input("Nome da Instituição/Empresa *")
+    senha = st.text_input("Crie uma Senha Master *", type="password")
 
     st.divider()
-    st.subheader("3. Pagamento e Plano")
-    plano = st.select_slider("Escolha seu plano:", options=["Mensal", "Semestral", "Anual"])
+    st.subheader("3. Configuração do Plano")
+    plano = st.select_slider("Assinatura:", options=["Mensal", "Semestral", "Anual"])
     
-    metodo = st.radio("Selecione o método:", ["Cartão de Crédito", "PIX", "Boleto"], horizontal=True)
+    metodo = st.radio("Forma de Pagamento:", ["Cartão de Crédito", "PIX", "Boleto"], horizontal=True)
 
     if metodo == "Cartão de Crédito":
         st.text_input("Número do Cartão", placeholder="0000 0000 0000 0000")
         c1, c2 = st.columns(2)
-        c1.text_input("Validade (MM/AA)")
+        c1.text_input("Validade")
         c2.text_input("CVV")
 
     st.divider()
-    concordo = st.checkbox("Li e aceito os Termos de Uso e Políticas de Privacidade.")
+    concordo = st.checkbox("Declaro que li e aceito os Termos de Uso.")
     
-    btn = st.form_submit_button("FINALIZAR E ATIVAR MINHA CONTA", use_container_width=True)
+  
+    btn = st.form_submit_button("FINALIZAR E ATIVAR AGORA", use_container_width=True)
 
 
 if btn:
     if concordo and all([nome, email, cpf_cnpj, empresa, senha]):
-        # Passo 1: Cadastro no Banco
-        sucesso, msg = db.cadastrar_usuario_completo(
-            nome, email, senha, empresa, "ADM", 
-            cpf_cnpj, whatsapp, plano, metodo
-        )
-        
-        if sucesso:
-            # Passo 2: Envio de E-mail
-            with st.spinner("Processando sua licença e enviando e-mail de acesso..."):
-                enviado = enviar_email_boas_vindas(email, nome, empresa)
+        with st.spinner("Validando sua licença..."):
+            sucesso, msg = db.cadastrar_usuario_completo(
+                nome, email, senha, empresa, "ADM", 
+                cpf_cnpj, whatsapp, plano, metodo
+            )
             
-            st.success("✨ Conta ativada com sucesso!")
-            st.balloons()
-            
-            if enviado:
-                st.info(f"📧 Enviamos suas credenciais para **{email}**. Verifique sua caixa de entrada.")
+            if sucesso:
+                enviar_email_boas_vindas(email, nome, empresa)
+                st.success("✨ Conta ativada com sucesso!")
+                st.balloons()
             else:
-                st.warning("⚠️ Conta criada, mas houve uma falha no envio do e-mail.")
-        else:
-            st.error(msg)
+                st.error(msg)
     else:
-        st.warning("Preencha todos os campos obrigatórios e aceite os termos.")
+        st.warning("Preencha os campos obrigatórios e aceite os termos.")
