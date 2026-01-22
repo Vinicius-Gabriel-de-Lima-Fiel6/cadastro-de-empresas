@@ -1,32 +1,22 @@
 /* style.css */
-.checkout-card {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 1px solid #f0f0f0;
+.main-card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-top: 6px solid #00D1B2;
+    margin-bottom: 20px;
 }
 
-.input-label {
-    color: #475569;
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
+.stButton>button {
+    background: linear-gradient(90deg, #00D1B2 0%, #009688 100%) !important;
+    color: white !important;
+    font-weight: bold !important;
+    border: none !important;
+    padding: 0.75rem !important;
+    border-radius: 8px !important;
 }
 
-.btn-ativar {
-    background: linear-gradient(90deg, #00D1B2 0%, #009688 100%);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    transition: transform 0.2s;
-}
-
-.btn-ativar:hover {
-    transform: scale(1.02);
+h1, h2, h3 {
+    color: #1E293B !important;
 }
