@@ -2,9 +2,19 @@ import streamlit as st
 import auth_db as db
 from email_utils import enviar_email_boas_vindas
 
+# --- FUNÇÃO DE CONEXÃO COM O FRONT ---
+def load_external_files():
+    with open("style.css", "r") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    with open("template.html", "r") as f:
+        st.markdown(f.read(), unsafe_allow_html=True)
+
 st.set_page_config(page_title="Checkout LabSmartAI", layout="centered", page_icon="🧪")
 
-st.title("🧪 Ative sua Licença LabSmartAI")
+# Aplica o Front-end separado
+load_external_files()
+
+# --- TODO O SEU CÓDIGO ORIGINAL INTEGRADO ---
 st.info("O primeiro cadastro define o Administrador Único da conta.")
 
 with st.form("hotmart_checkout"):
@@ -36,6 +46,7 @@ with st.form("hotmart_checkout"):
     
     btn = st.form_submit_button("FINALIZAR E ATIVAR MINHA CONTA", use_container_width=True)
 
+# --- LÓGICA DE PROCESSAMENTO (BACKEND) ---
 if btn:
     if concordo and all([nome, email, cpf_cnpj, empresa, senha]):
         # Passo 1: Cadastro no Banco
@@ -45,7 +56,7 @@ if btn:
         )
         
         if sucesso:
-            # Passo 2: Envio de E-mail (Incremento)
+            # Passo 2: Envio de E-mail
             with st.spinner("Processando sua licença e enviando e-mail de acesso..."):
                 enviado = enviar_email_boas_vindas(email, nome, empresa)
             
@@ -55,7 +66,7 @@ if btn:
             if enviado:
                 st.info(f"📧 Enviamos suas credenciais para **{email}**. Verifique sua caixa de entrada.")
             else:
-                st.warning("⚠️ Conta criada, mas houve uma falha no envio do e-mail. Acesse o sistema com a senha criada.")
+                st.warning("⚠️ Conta criada, mas houve uma falha no envio do e-mail.")
         else:
             st.error(msg)
     else:
