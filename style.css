@@ -1,62 +1,48 @@
-/* Importação de fonte profissional */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
 .stApp {
-    background-color: #f4f7f6;
+    background: radial-gradient(circle, #f0fdfa 0%, #e2e8f0 100%);
     font-family: 'Inter', sans-serif;
 }
 
-/* Card Principal Estilo Hotmart */
+/* Card centralizado estilo Hotmart */
 .stForm {
-    border: none !important;
-    background: #ffffff !important;
+    background-color: white !important;
     padding: 3rem !important;
-    border-radius: 16px !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
-}
-
-/* Campos de entrada refinados */
-input {
-    border-radius: 8px !important;
-    border: 1px solid #d1d5db !important;
-    padding: 12px !important;
-    font-size: 16px !important;
-}
-
-input:focus {
-    border-color: #2dd4bf !important;
-    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.2) !important;
-}
-
-/* Botão de Finalização de Alta Conversão */
-button[kind="primaryFormSubmit"] {
-    background: #2563eb !important; /* Azul Confiança */
+    border-radius: 20px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
     border: none !important;
-    padding: 1rem !important;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Inputs arredondados */
+input {
+    border-radius: 10px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* Botão Principal de Alta Conversão */
+button[kind="primaryFormSubmit"] {
+    background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%) !important;
+    color: white !important;
     font-size: 18px !important;
     font-weight: 700 !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 10px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    height: 55px !important;
     transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4) !important;
+    margin-top: 20px;
 }
 
 button[kind="primaryFormSubmit"]:hover {
-    background: #1d4ed8 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.6) !important;
 }
 
-/* Estilo para Radio e Sliders */
-div[data-testid="stMarkdownContainer"] p {
-    font-weight: 600;
-    color: #374151;
-}
-
-/* Badge de Segurança */
-.security-footer {
-    text-align: center;
-    color: #6b7280;
-    font-size: 12px;
-    margin-top: 20px;
-}
+/* Esconder elementos nativos do Streamlit para ficar limpo */
+header {visibility: hidden;}
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
