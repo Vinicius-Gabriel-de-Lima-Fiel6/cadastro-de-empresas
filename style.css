@@ -1,4 +1,9 @@
 /* style.css */
+
+/* Esconde elementos nativos para parecer um sistema externo */
+[data-testid="stSidebarNav"] {display: none;}
+[data-testid="stHeader"] {background: rgba(0,0,0,0);}
+
 .main-card {
     background-color: #ffffff;
     padding: 2rem;
@@ -20,3 +25,5 @@
 h1, h2, h3 {
     color: #1E293B !important;
 }
+
+
