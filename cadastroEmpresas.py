@@ -14,7 +14,6 @@ st.set_page_config(page_title="Checkout LabSmartAI", layout="centered", page_ico
 # Aplica o Front-end separado
 load_external_files()
 
-# --- TODO O SEU CÓDIGO ORIGINAL INTEGRADO ---
 st.info("O primeiro cadastro define o Administrador Único da conta.")
 
 with st.form("hotmart_checkout"):
@@ -46,7 +45,7 @@ with st.form("hotmart_checkout"):
     
     btn = st.form_submit_button("FINALIZAR E ATIVAR MINHA CONTA", use_container_width=True)
 
-# --- LÓGICA DE PROCESSAMENTO (BACKEND) ---
+
 if btn:
     if concordo and all([nome, email, cpf_cnpj, empresa, senha]):
         # Passo 1: Cadastro no Banco
